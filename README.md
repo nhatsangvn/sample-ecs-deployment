@@ -39,7 +39,7 @@ CLIENT -- sg:lb-secgroup -> [LB]:443 -- sg:lb-to-ecs --> [ECS] with public-ip
 4b. Create target-group with IP
 
 - [x] Do with UI (seperated secgroup with port 80,443)
-- [ ] IaC
+- [x] IaC
 
 5. Create fargate service mapped from 3. and mapped to lb
 
