@@ -34,8 +34,8 @@ CLIENT -- sg:lb-secgroup -> [LB]:443 -- sg:lb-to-ecs --> [ECS] with public-ip
 - [x] Do with UI
 - [ ] IaC
 
-4. Create lb with secgroup lb-secgroup
-4a. Create listener 443
+4. Create lb with secgroup lb-secgroup <br>
+4a. Create listener 443 <br>
 4b. Create target-group with IP
 
 - [x] Do with UI (seperated secgroup with port 80,443)
@@ -55,6 +55,8 @@ CLIENT -- sg:lb-secgroup -> [LB]:443 -- sg:lb-to-ecs --> [ECS] with public-ip
 
 # Optimization
 - [ ] No ENV in Dockerfile 
+- [ ] Image size
 - [ ] Iamge should be built with build-in HTTPS?
 - [ ] Encryption on ECR image?
 - [ ] Autoscale on load?
+
