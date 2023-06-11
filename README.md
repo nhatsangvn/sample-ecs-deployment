@@ -47,13 +47,13 @@ terraform -chdir=./deployment/services apply # yes
 - How to add certs to ALB with IaC ? => To be researched.
 
 # Optimization
-- [ ] No ENV in Dockerfile 
-- [ ] Image size
+- [x] No ENV in Dockerfile 
+- [x] Image size
 - [ ] Image should be built with build-in HTTPS
 - [ ] Autoscale on load
 - [ ] Monitoring
 - [ ] Rollback on error?
-- [ ] Multi enviroment
+- [ ] Multi enviroments
 - [ ] Multi regions
 
 # Check list
