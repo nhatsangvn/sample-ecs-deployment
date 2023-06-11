@@ -98,8 +98,24 @@ resource "aws_lb_target_group" "rg-ops" {
   }
 }
 
-resource "aws_lb_listener_rule" "rg-ops" {
+resource "aws_lb_listener_rule" "rg-ops-http" {
   listener_arn = aws_lb_listener.http.arn
+  priority     = 100
+
+  condition {
+    path_pattern {
+      values = ["*"]
+    }
+  }
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.rg-ops.arn
+  }
+}
+
+resource "aws_lb_listener_rule" "rg-ops-https" {
+  listener_arn = aws_lb_listener.https.arn
   priority     = 100
 
   condition {
