@@ -1,7 +1,7 @@
 #!/bin/bash
 IMAGE_AWS_REGION=ap-southeast-1
 IMAGE_TAG=$(git log -n 1 --abbrev=8 --pretty=format:'%cd-%h' --date=format:'%Y%m%d')
-IMAGE_REPO=$(terraform -chdir=./deployment/services/base output -raw image-repo)
+IMAGE_REPO=$(terraform -chdir=./deployment/base output -raw image-repo)
 IMAGE_FULL=${IMAGE_REPO}:${IMAGE_TAG}
 IMAGE_PROJECT=$(echo ${IMAGE_REPO} | cut -d '/' -f1)
 IMAGE_NAME=$(echo ${IMAGE_REPO} | cut -d '/' -f2)
