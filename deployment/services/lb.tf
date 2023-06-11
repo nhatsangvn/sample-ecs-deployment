@@ -38,14 +38,14 @@ resource "aws_lb_listener" "http" {
   port              = local.http_port
   protocol          = "HTTP"
 
-  # By default, return a simple 404 page
+  # By default, redirect to PORT 443
   default_action {
-    type = "fixed-response"
+    type = "redirect"
 
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "404: page not found"
-      status_code  = 404
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
     }
   }
 }
@@ -99,8 +99,13 @@ resource "aws_lb_listener_rule" "rg-ops-http" {
   }
 
   action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.rg-ops.arn
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
   }
 }
 
