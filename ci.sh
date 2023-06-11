@@ -12,12 +12,18 @@ IMAGE_FULL: ${IMAGE_FULL}
 IMAGE_PROJECT: ${IMAGE_PROJECT}
 IMAGE_NAME: ${IMAGE_NAME}"
 
-echo "++ Logging in to registry"
+echo -e "\n+++++++++++++++
+++ Logging in to registry ++
++++++++++++++++"
 aws ecr get-login-password --region ${IMAGE_AWS_REGION} | docker login --username AWS --password-stdin ${IMAGE_PROJECT}
-echo "++ Building image: ${IMAGE_REPO}:${IMAGE_TAG}"
+echo -e "\n+++++++++++++++
+++ Building image: ${IMAGE_REPO}:${IMAGE_TAG} ++
++++++++++++++++"
 docker build -t rg-ops-image .
 
-echo "++ Pushing image"
+echo -e "\n+++++++++++++++
+++ Pushing image ++
++++++++++++++++"
 docker tag rg-ops-image:latest ${IMAGE_REPO}:${IMAGE_TAG}
 docker tag rg-ops-image:latest ${IMAGE_REPO}:latest
 docker push ${IMAGE_REPO}:${IMAGE_TAG}
