@@ -8,20 +8,15 @@ resource "aws_ecs_task_definition" "rg-ops" {
   container_definitions     = jsonencode([
     {
       name                = "rg-ops"
-      image               = "${aws_ecr_repository.rg-ops.repository_url}:latest@${data.aws_ecr_image.rg-ops.image_digest}"
+      image               = "${data.aws_ecr_repository.rg-ops.repository_url}:latest@${data.aws_ecr_image.rg-ops.image_digest}"
       cpu                 = 256
       memory              = 1024
       essential           = true
-      environment         = [
-        {
-          name  = "value1",
-          value = "value2"
-        }
-      ],
+      environment         = "${local.app_env_variables}",
       portMappings        = [
         {
-          containerPort = 3000
-          hostPort      = 3000
+          containerPort = var.app_port
+          hostPort      = var.app_port
         }
       ]
     }
@@ -41,8 +36,8 @@ resource "aws_security_group" "lb-to-ecs-secgroup" {
 
   # Allow inbound HTTP requests
   ingress {
-    from_port       = local.app_port
-    to_port         = local.app_port
+    from_port       = var.app_port
+    to_port         = var.app_port
     protocol        = local.tcp_protocol
     security_groups = [aws_security_group.lb-secgroup.id]
   }
@@ -75,6 +70,6 @@ resource "aws_ecs_service" "rg-ops" {
   load_balancer {
     target_group_arn = aws_lb_target_group.rg-ops.arn
     container_name   = "rg-ops"
-    container_port   = 3000
+    container_port   = var.app_port
   }
 }

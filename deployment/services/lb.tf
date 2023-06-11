@@ -1,13 +1,3 @@
-locals {
-  http_port    = 80
-  https_port   = 443
-  any_port     = 0
-  any_protocol = "-1"
-  tcp_protocol = "tcp"
-  all_ips      = ["0.0.0.0/0"]
-  app_port     = 3000
-}
-
 resource "aws_security_group" "lb-secgroup" {
   name = "lb-secgroup"
 
@@ -82,7 +72,7 @@ resource "aws_lb_listener" "https" {
 
 resource "aws_lb_target_group" "rg-ops" {
   name        = "tg-rg-ops"
-  port        = local.app_port
+  port        = var.app_port
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = data.aws_vpc.default.id

@@ -18,13 +18,22 @@ CLIENT -- sg:lb-secgroup -> [ALB]:443 -- sg:lb-to-ecs --> [ECS] with public-ip <
 + Already imported TLS Certs with matching domain api.sohan.cloud
 + Will map the domain api.sohan.cloud to ALB after creation
 
-1. establish the infrastructure
+1. establish the infrastructure: create ECR repository and build the first image
+```
+# create the base image repository
+terraform -chdir=./deployment/base apply # yes
+
+# push the very first image
+bash ci.sh
+```
+
+2. deploy other services: we can call to our domain after this
 ```
 terraform -chdir=./deployment/services apply # yes
 # note the lb-dns output string -> will need to mapping DNS on the NS Provider
 ```
 
-2. deploy new code
+3. deploy new code
 ```
 # update the corresponding IMAGE_AWS_REGION in ci.sh
 # is used to build the new docker image and push to ECR
@@ -40,10 +49,12 @@ terraform -chdir=./deployment/services apply # yes
 # Optimization
 - [ ] No ENV in Dockerfile 
 - [ ] Image size
-- [ ] Iamge should be built with build-in HTTPS
-- [ ] Encryption on ECR image
+- [ ] Image should be built with build-in HTTPS
 - [ ] Autoscale on load
 - [ ] Monitoring
+- [ ] Rollback on error?
+- [ ] Multi enviroment
+- [ ] Multi regions
 
 # Check list
 1. Create ECR image => get image path 
