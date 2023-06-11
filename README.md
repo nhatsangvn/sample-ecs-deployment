@@ -27,12 +27,12 @@ CLIENT -- sg:lb-secgroup -> [LB]:443 -- sg:lb-to-ecs --> [ECS] with public-ip
 2. Create task definition
 
 - [x] Do with UI
-- [ ] IaC
+- [x] IaC
 
 3. Create cluster from 2.
 
 - [x] Do with UI
-- [ ] IaC
+- [x] IaC
 
 4. Create lb with secgroup lb-secgroup <br>
 4a. Create listener 443 <br>
@@ -44,14 +44,14 @@ CLIENT -- sg:lb-secgroup -> [LB]:443 -- sg:lb-to-ecs --> [ECS] with public-ip
 5. Create fargate service mapped from 3. and mapped to lb
 
 - [x] Do with UI (use public ip on services and allow secgroup from LB - Fargate)
-- [ ] IaC
+- [x] IaC
 
 6. Add domain/certs to LB
 
 - [x] Do with UI 
 
 7. Test on the domain: https://api.sohan.cloud
-
+- [x] Done
 
 # Optimization
 - [ ] No ENV in Dockerfile 
