@@ -22,7 +22,7 @@ CLIENT -- sg:lb-secgroup -> [LB]:443 -- sg:lb-to-ecs --> [ECS] with public-ip
 1. Create ECR image => get image path 
 
 - [x] Do with UI
-- [ ] IaC
+- [x] IaC
 
 2. Create task definition
 

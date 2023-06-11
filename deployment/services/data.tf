@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "ap-southeast-1"
-}
-
 ### fetch info
 data "aws_vpc" "default" {
   default = true
