@@ -8,9 +8,9 @@ output "image-repo" {
 }
 
 ### debug output
-output "test" {
-  value       = data.aws_subnets.default.ids
-}
+#output "test" {
+#  value       = data.aws_ecr_image.rg-ops
+#}
 #
 #output "cert-arn" {
 #  value       = data.aws_acm_certificate.api-sohan-cloud.arn

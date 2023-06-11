@@ -1,5 +1,6 @@
-#995465982134.dkr.ecr.ap-southeast-1.amazonaws.com/rg-ops-image
-IMAGE_TAG=$(git log -n 1 --abbrev=8 --pretty=format:'%cd-%h' --date=format:'%Y%m%d')
+#!/bin/bash
+IMAGE_AWS_REGION=ap-southeast-1
+IMAGE_TAG="$(git log -n 1 --abbrev=8 --pretty=format:'%cd-%h' --date=format:'%Y%m%d')-$(date +"%H%M")"
 IMAGE_REPO=$(terraform -chdir=./deployment/services output -raw image-repo)
 IMAGE_FULL=${IMAGE_REPO}:${IMAGE_TAG}
 IMAGE_PROJECT=$(echo ${IMAGE_REPO} | cut -d '/' -f1)
@@ -11,11 +12,11 @@ IMAGE_FULL: ${IMAGE_FULL}
 IMAGE_PROJECT: ${IMAGE_PROJECT}
 IMAGE_NAME: ${IMAGE_NAME}"
 
-aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 995465982134.dkr.ecr.ap-southeast-1.amazonaws.com
+aws ecr get-login-password --region ${IMAGE_AWS_REGION} | docker login --username AWS --password-stdin ${IMAGE_PROJECT}
 docker build -t rg-ops-image .
 
-docker tag rg-ops-image:latest 995465982134.dkr.ecr.ap-southeast-1.amazonaws.com/rg-ops-image:${IMAGE_TAG}
-docker tag rg-ops-image:latest 995465982134.dkr.ecr.ap-southeast-1.amazonaws.com/rg-ops-image:latest
+docker tag rg-ops-image:latest ${IMAGE_REPO}:${IMAGE_TAG}
+docker tag rg-ops-image:latest ${IMAGE_REPO}:latest
 
-docker push 995465982134.dkr.ecr.ap-southeast-1.amazonaws.com/rg-ops-image:${IMAGE_TAG}
-docker push 995465982134.dkr.ecr.ap-southeast-1.amazonaws.com/rg-ops-image:latest
+docker push ${IMAGE_REPO}:${IMAGE_TAG}
+docker push ${IMAGE_REPO}:latest

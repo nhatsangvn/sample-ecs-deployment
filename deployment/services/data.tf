@@ -16,3 +16,12 @@ data "aws_acm_certificate" "api-sohan-cloud" {
   most_recent = true
 }
 
+
+data "aws_ecr_repository" "rg-ops" {
+  name = "rg-ops-image"
+}
+
+data "aws_ecr_image" "rg-ops" {
+  repository_name = data.aws_ecr_repository.rg-ops.name
+  image_tag       = "latest"
+}

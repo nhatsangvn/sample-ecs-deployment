@@ -8,7 +8,7 @@ resource "aws_ecs_task_definition" "rg-ops" {
   container_definitions     = jsonencode([
     {
       name                = "rg-ops"
-      image               = "${aws_ecr_repository.rg-ops.repository_url}:latest"
+      image               = "${aws_ecr_repository.rg-ops.repository_url}:latest@${data.aws_ecr_image.rg-ops.image_digest}"
       cpu                 = 256
       memory              = 1024
       essential           = true
@@ -57,13 +57,14 @@ resource "aws_security_group" "lb-to-ecs-secgroup" {
 }
 
 resource "aws_ecs_service" "rg-ops" {
-  name            = "svc-rg-ops"
-  cluster         = aws_ecs_cluster.rg-ops.id
-  launch_type     = "FARGATE"
-  task_definition = aws_ecs_task_definition.rg-ops.arn
-  desired_count   = 2
-  #iam_role        = aws_iam_role.foo.arn
-  #depends_on      = [aws_iam_role_policy.foo]
+  name                  = "svc-rg-ops"
+  cluster               = aws_ecs_cluster.rg-ops.id
+  launch_type           = "FARGATE"
+  task_definition       = aws_ecs_task_definition.rg-ops.arn
+  desired_count         = 2
+  force_new_deployment  = true
+  #iam_role             = aws_iam_role.foo.arn
+  #depends_on           = [aws_iam_role_policy.foo]
 
   network_configuration {
     subnets           = data.aws_subnets.default.ids
