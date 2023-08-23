@@ -2,15 +2,15 @@ resource "aws_ecs_task_definition" "rg-ops" {
   family                    = "task-rg-ops"
   requires_compatibilities  = ["FARGATE"]
   network_mode              = "awsvpc"
-  cpu                       = 256
-  memory                    = 1024
+  cpu                       = var.container_cpu
+  memory                    = var.container_memory
   execution_role_arn        = "arn:aws:iam::995465982134:role/ecsTaskExecutionRole"
   container_definitions     = jsonencode([
     {
       name                = "rg-ops"
       image               = "${data.aws_ecr_repository.rg-ops.repository_url}:latest@${data.aws_ecr_image.rg-ops.image_digest}"
-      cpu                 = 256
-      memory              = 1024
+      cpu                 = var.container_cpu
+      memory              = var.container_memory
       essential           = true
       environment         = "${local.app_env_variables}",
       portMappings        = [
@@ -56,10 +56,8 @@ resource "aws_ecs_service" "rg-ops" {
   cluster               = aws_ecs_cluster.rg-ops.id
   launch_type           = "FARGATE"
   task_definition       = aws_ecs_task_definition.rg-ops.arn
-  desired_count         = 2
+  desired_count         = var.desired_count
   force_new_deployment  = true
-  #iam_role             = aws_iam_role.foo.arn
-  #depends_on           = [aws_iam_role_policy.foo]
 
   network_configuration {
     subnets           = data.aws_subnets.default.ids

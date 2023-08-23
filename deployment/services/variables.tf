@@ -27,3 +27,17 @@ variable "default_env_variables" {
       ]
 }
 
+variable "container_cpu" {
+  description = "The CPU resource for container (milicore)"
+  type        = number
+}
+
+variable "container_memory" {
+  description = "The Memory usage for container (MB)"
+  type        = number
+}
+
+variable "desired_count" {
+  description = "The desired number of containers"
+  type        = number
+}
